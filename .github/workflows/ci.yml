@@ -2,7 +2,7 @@ name: "CI"
 
 env:
   INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
-  MNEMONIC: ${{ secrets.MNEMONIC }}
+  ACCOUNT_PRIVATE_KEY: ${{ secrets.ACCOUNT_PRIVATE_KEY }}
 
 on:
   pull_request:
