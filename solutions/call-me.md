@@ -1,4 +1,7 @@
 # Call me
 
-1. Create the task [call-me](../tasks/call-me.ts) to call the `callme` function in the smart contract
-2. Run `npx hardhat call-me --network ropsten`
+The goal of this challenge is to run a function in a contract.
+
+I've created a task [call-me](../tasks/call-me.ts) to execute the `callme` function in the contract
+
+Run `npx hardhat call-me --network ropsten` to complete the challenge
