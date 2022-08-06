@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 
-const { utils, provider } = ethers;
+const { utils } = ethers;
 
 describe("GuessTheNumberChallenge", () => {
   it("Solves the challenge", async () => {
@@ -12,6 +12,6 @@ describe("GuessTheNumberChallenge", () => {
     const tx = await contract.guess(42, { value: utils.parseEther("1") });
     await tx.wait();
 
-    expect(await provider.getBalance(contract.address)).to.equal(0);
+    expect(await contract.isComplete()).to.be.true;
   });
 });
