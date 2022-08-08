@@ -5,4 +5,5 @@ import "./guess-the-new-number";
 import "./guess-the-number";
 import "./guess-the-random-number";
 import "./guess-the-secret-number";
+import "./predict-the-block-hash";
 import "./predict-the-future";
