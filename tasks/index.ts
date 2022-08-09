@@ -8,3 +8,4 @@ import "./guess-the-secret-number";
 import "./predict-the-block-hash";
 import "./predict-the-future";
 import "./token-sale";
+import "./token-whale";

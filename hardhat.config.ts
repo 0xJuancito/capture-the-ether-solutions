@@ -9,8 +9,9 @@ import "./tasks/deploy";
 dotenvConfig({ path: resolve(__dirname, "./.env") });
 
 // Ensure that we have all the environment variables we need.
-const privateKey: string = process.env.ACCOUNT_PRIVATE_KEY || "";
-if (!privateKey) {
+const privateKey1: string = process.env.ACCOUNT_PRIVATE_KEY_1 || "";
+const privateKey2: string = process.env.ACCOUNT_PRIVATE_KEY_2 || "";
+if (!privateKey1 || !privateKey2) {
   throw new Error("Please set your ACCOUNT_PRIVATE_KEY in a .env file");
 }
 
@@ -45,8 +46,8 @@ const config: HardhatUserConfig = {
     },
     ropsten: {
       url: `https://eth-ropsten.alchemyapi.io/v2/${alchemyApiKey}`,
-      accounts: [privateKey],
-      chainId: 3
+      accounts: [privateKey1, privateKey2],
+      chainId: 3,
     },
     // rinkeby: getChainConfig("rinkeby"),
   },
