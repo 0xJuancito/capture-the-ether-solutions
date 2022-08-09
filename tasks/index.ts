@@ -5,6 +5,7 @@ import "./guess-the-new-number";
 import "./guess-the-number";
 import "./guess-the-random-number";
 import "./guess-the-secret-number";
+import "./mapping";
 import "./predict-the-block-hash";
 import "./predict-the-future";
 import "./retirement-fund";
