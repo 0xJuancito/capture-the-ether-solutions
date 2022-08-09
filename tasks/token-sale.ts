@@ -3,7 +3,7 @@ import { task } from "hardhat/config";
 
 const contractAddress = "0x7B206a9F8A8E0587776980EAaD1A7DF97e7a3948";
 
-task("token-sale", "Solves the 'Predict the Token Sale' challenge", async (_taskArgs, hre) => {
+task("token-sale", "Solves the 'Token Sale' challenge", async (_taskArgs, hre) => {
   const challengeFactory = await hre.ethers.getContractFactory("TokenSaleChallenge");
   const challengeContract = challengeFactory.attach(contractAddress);
 
