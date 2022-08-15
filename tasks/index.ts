@@ -3,6 +3,7 @@ import "./call-me";
 import "./choose-a-nickname";
 import "./donation";
 import "./fifty-years";
+import "./fuzzy-identity";
 import "./guess-the-new-number";
 import "./guess-the-number";
 import "./guess-the-random-number";
