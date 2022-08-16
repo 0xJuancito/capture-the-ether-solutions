@@ -11,6 +11,7 @@ import "./guess-the-secret-number";
 import "./mapping";
 import "./predict-the-block-hash";
 import "./predict-the-future";
+import "./public-key";
 import "./retirement-fund";
 import "./token-sale";
 import "./token-whale";
