@@ -15,5 +15,6 @@ import "./predict-the-block-hash";
 import "./predict-the-future";
 import "./public-key";
 import "./retirement-fund";
+import "./token-bank";
 import "./token-sale";
 import "./token-whale";
