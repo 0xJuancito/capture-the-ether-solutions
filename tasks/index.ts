@@ -1,5 +1,6 @@
 import "./account-takeover";
 import "./accounts";
+import "./assume-ownership";
 import "./call-me";
 import "./choose-a-nickname";
 import "./donation";
