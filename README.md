@@ -32,104 +32,102 @@ Solutions to the Capture The Ether CTF challenges ⛳️
   - [Assume ownership](#assume-ownership)
   - [Token bank](#token-bank)
 
-## Solutions
+## Warmup
 
-### Warmup
-
-#### Deploy a contract
+### Deploy a contract
 
 1. Install a wallet
 2. Get some ETH from a faucet
 3. Deploy the contract from the web page
 
-#### Call me
+### Call me
 
 TODO
 
-#### Choose a nickname
+### Choose a nickname
 
 TODO
 
-### Lotteries
+## Lotteries
 
 TODO
 
-#### Guess the number
+### Guess the number
 
 TODO
 
-#### Guess the secret number
+### Guess the secret number
 
 TODO
 
-#### Guess the random number
+### Guess the random number
 
 TODO
 
-#### Guess the new number
+### Guess the new number
 
 TODO
 
-#### Predict the future
+### Predict the future
 
 TODO
 
-#### Predict the block hash
+### Predict the block hash
 
 TODO
 
-### Math
+## Math
 
 TODO
 
-#### Token sale
+### Token sale
 
 TODO
 
-#### Token whale
+### Token whale
 
 TODO
 
-#### Retirement fund
+### Retirement fund
 
 TODO
 
-#### Mapping
+### Mapping
 
 TODO
 
-#### Donation
+### Donation
 
 TODO
 
-#### Fifty years
+### Fifty years
 
 TODO
 
-### Accounts
+## Accounts
 
 TODO
 
-#### Fuzzy identity
+### Fuzzy identity
 
 TODO
 
-#### Public Key
+### Public Key
 
 TODO
 
-#### Account Takeover
+### Account Takeover
 
 TODO
 
-### Miscellaneous
+## Miscellaneous
 
 TODO
 
-#### Assume ownership
+### Assume ownership
 
 TODO
 
-#### Token bank
+### Token bank
 
 TODO
