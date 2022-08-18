@@ -1,10 +1,10 @@
 import { utils } from "ethers";
-import { task } from "hardhat/config";
+import { ethers } from "hardhat";
 
 const contractAddress = "0x4c99d5477B32F44fDE4dd1Fe9e9B498a87CFAbF1";
 
-task("predict-the-block-hash", "Solves the 'Predict the Block Hash' challenge", async (_taskArgs, hre) => {
-  const challengeFactory = await hre.ethers.getContractFactory("PredictTheBlockHashChallenge");
+async function main() {
+  const challengeFactory = await ethers.getContractFactory("PredictTheBlockHashChallenge");
   const challengeContract = challengeFactory.attach(contractAddress);
 
   console.log("locking the number...");
@@ -14,13 +14,13 @@ task("predict-the-block-hash", "Solves the 'Predict the Block Hash' challenge", 
   );
   await lockInGuessTx.wait();
 
-  const initBlockNumber = await hre.ethers.provider.getBlockNumber();
+  const initBlockNumber = await ethers.provider.getBlockNumber();
 
   // Wait for 256 blocks
   let lastBlockNumber = initBlockNumber;
   do {
     try {
-      lastBlockNumber = await hre.ethers.provider.getBlockNumber();
+      lastBlockNumber = await ethers.provider.getBlockNumber();
       console.log(`Block number: ${lastBlockNumber}`);
       await new Promise(resolve => setTimeout(resolve, 1000 * 12));
     } catch (err) {
@@ -30,4 +30,9 @@ task("predict-the-block-hash", "Solves the 'Predict the Block Hash' challenge", 
 
   const attackTx = await challengeContract.settle();
   await attackTx.wait();
+}
+
+main().catch(error => {
+  console.error(error);
+  process.exit(1);
 });

@@ -1,9 +1,9 @@
-import { task } from "hardhat/config";
+import { ethers } from "hardhat";
 
 const contractAddress = "0x8F3428c13403EEc09abf105f592b1A8D7183c2A2";
 
-task("assume-ownership", "Solves the 'Assume Ownership' challenge", async (_taskArgs, hre) => {
-  const factory = await hre.ethers.getContractFactory("AssumeOwnershipChallenge");
+async function main() {
+  const factory = await ethers.getContractFactory("AssumeOwnershipChallenge");
   const contract = factory.attach(contractAddress);
 
   let tx;
@@ -12,4 +12,9 @@ task("assume-ownership", "Solves the 'Assume Ownership' challenge", async (_task
 
   tx = await contract.authenticate();
   await tx.wait();
+}
+
+main().catch(error => {
+  console.error(error);
+  process.exit(1);
 });

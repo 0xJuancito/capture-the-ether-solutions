@@ -1,10 +1,9 @@
-import { utils } from "ethers";
-import { task } from "hardhat/config";
+import { ethers } from "hardhat";
 
 const contractAddress = "0x7B206a9F8A8E0587776980EAaD1A7DF97e7a3948";
 
-task("token-sale", "Solves the 'Token Sale' challenge", async (_taskArgs, hre) => {
-  const challengeFactory = await hre.ethers.getContractFactory("TokenSaleChallenge");
+async function main() {
+  const challengeFactory = await ethers.getContractFactory("TokenSaleChallenge");
   const challengeContract = challengeFactory.attach(contractAddress);
 
   // msg.value == numTokens * PRICE_PER_TOKEN
@@ -17,4 +16,9 @@ task("token-sale", "Solves the 'Token Sale' challenge", async (_taskArgs, hre) =
 
   const sellTx = await challengeContract.sell(1);
   await sellTx.wait();
+}
+
+main().catch(error => {
+  console.error(error);
+  process.exit(1);
 });

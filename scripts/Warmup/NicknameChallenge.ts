@@ -1,12 +1,17 @@
-import { task } from "hardhat/config";
+import { ethers } from "hardhat";
 
 const contractAddress = "0x71c46Ed333C35e4E6c62D32dc7C8F00D125b4fee";
 
-task("choose-a-nickname", "Solves the 'Choose a Nickname' challenge", async (taskArgs: { nickname: string }, hre) => {
-  const factory = await hre.ethers.getContractFactory("CaptureTheEther");
+async function main() {
+  const factory = await ethers.getContractFactory("CaptureTheEther");
   const contract = factory.attach(contractAddress);
 
-  const nickname = hre.ethers.utils.formatBytes32String(taskArgs.nickname);
+  const nickname = ethers.utils.formatBytes32String("juancito");
   const tx = await contract.setNickname(nickname);
   await tx.wait();
-}).addPositionalParam("nickname");
+}
+
+main().catch(error => {
+  console.error(error);
+  process.exit(1);
+});

