@@ -3,9 +3,6 @@ import { config as dotenvConfig } from "dotenv";
 import type { HardhatUserConfig } from "hardhat/config";
 import { resolve } from "path";
 
-import "./tasks";
-import "./tasks/deploy";
-
 dotenvConfig({ path: resolve(__dirname, "./.env") });
 
 // Ensure that we have all the environment variables we need.
