@@ -65,7 +65,13 @@ const tx = await contract.setNickname(nickname);
 
 ## Lotteries
 
-TODO
+Call the `guess` function with the `answer` number `42` which is hardcoded in the contract
+
+```typescript
+const tx = await contract.guess(42, { value: utils.parseEther("1") });
+```
+
+[Script](./scripts/lotteries/GuessTheNumberChallenge.ts.ts) | [Test](./scripts/lotteries/GuessTheNumberChallenge.ts)
 
 ### Guess the number
 
