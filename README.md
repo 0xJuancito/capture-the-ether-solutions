@@ -65,21 +65,46 @@ const tx = await contract.setNickname(nickname);
 
 ## Lotteries
 
+### Guess the number
+
 Call the `guess` function with the `answer` number `42` which is hardcoded in the contract
 
 ```typescript
 const tx = await contract.guess(42, { value: utils.parseEther("1") });
 ```
 
-[Script](./scripts/lotteries/GuessTheNumberChallenge.ts.ts) | [Test](./scripts/lotteries/GuessTheNumberChallenge.ts)
-
-### Guess the number
-
-TODO
+[Script](./scripts/lotteries/GuessTheNumberChallenge.ts) | [Test](./test/lotteries/GuessTheNumberChallenge.spec.ts)
 
 ### Guess the secret number
 
-TODO
+The answer `n` is now a number that produces a specific `answerHash` which is not reversible
+
+```typescript
+bytes32 answerHash = 0xdb81b4d58595fbbbb592d3661a34cdca14d7ab379441400cbfa1b78bc447c365;
+
+function guess(uint8 n) public payable {
+    require(msg.value == 1 ether);
+
+    if (keccak256(n) == answerHash) {
+        msg.sender.transfer(2 ether);
+    }
+}
+```
+
+The good thing is that the answer is defined as `uint8 n`, which has a range from 0 to 255. We can brute force it until we get the specific hash.
+
+```typescript
+for (let i = 0; i <= 255; i++) {
+  const hash = utils.keccak256([i]);
+  if (answerHash === hash) {
+    secretNumber = i;
+    console.log(`The secret number is ${secretNumber}`);
+    break;
+  }
+}
+```
+
+[Script](./scripts/lotteries/GuessTheSecretNumberChallenge.ts) | [Test](./test/lotteries/GuessTheSecretNumberChallenge.spec.ts)
 
 ### Guess the random number
 
