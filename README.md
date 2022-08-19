@@ -171,3 +171,13 @@ for (let i = 0; i <= 255; i++) {
 ### Token bank
 
 [Script](./scripts/miscellaneous/TokenBankChallenge.ts) | [Test](./test/miscellaneous/TokenBankChallenge.spec.ts)
+
+# Acknowledgments
+
+Some useful resources that helped me solve the challenges and understand them better:
+
+- https://cmichel.io/capture-the-ether-solutions/
+- https://medium.com/coinmonks/lets-play-capture-the-ether-warmup-68a5fc38e670
+- https://medium.com/coinmonks/smart-contract-exploits-part-2-featuring-capture-the-ether-math-31a289da0427
+- https://betterprogramming.pub/capture-the-ether-guess-the-random-number-2ebb8c9c0347
+- https://www.youtube.com/watch?v=c7Pnn-Oop_Q&list=PLQ6T91uQFBa3_4RxD63XfMyfmNX56XO74 (Spanish)
