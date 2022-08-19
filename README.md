@@ -108,72 +108,66 @@ for (let i = 0; i <= 255; i++) {
 
 ### Guess the random number
 
-TODO
+[Script](./scripts/lotteries/GuessTheRandomNumberChallenge.ts) | [Test](./test/lotteries/GuessTheRandomNumberChallenge.spec.ts)
 
 ### Guess the new number
 
-TODO
+[Script](./scripts/lotteries/GuessTheNewNumberChallenge.ts) | [Test](./test/lotteries/GuessTheNewNumberChallenge.spec.ts)
 
 ### Predict the future
 
-TODO
+[Script](./scripts/lotteries/PredictTheFutureChallenge.ts) | [Test](./test/lotteries/PredictTheFutureChallenge.spec.ts)
 
 ### Predict the block hash
 
-TODO
+[Script](./scripts/lotteries/PredictTheBlockHashChallenge.ts) | [Test](./test/lotteries/PredictTheBlockHashChallenge.spec.ts)
 
 ## Math
 
-TODO
-
 ### Token sale
 
-TODO
+[Script](./scripts/math/TokenSaleChallenge.ts) | [Test](./test/math/TokenSaleChallenge.spec.ts)
 
 ### Token whale
 
-TODO
+[Script](./scripts/math/TokenWhaleChallenge.ts) | [Test](./test/math/TokenWhaleChallenge.spec.ts)
 
 ### Retirement fund
 
-TODO
+[Script](./scripts/math/RetirementFundChallenge.ts) | [Test](./test/math/RetirementFundChallenge.spec.ts)
 
 ### Mapping
 
-TODO
+[Script](./scripts/math/MappingChallenge.ts) | [Test](./test/math/MappingChallenge.spec.ts)
 
 ### Donation
 
-TODO
+[Script](./scripts/math/DonationChallenge.ts) | [Test](./test/math/DonationChallenge.spec.ts)
 
 ### Fifty years
 
-TODO
+[Script](./scripts/math/FiftyYearsChallenge.ts) | [Test](./test/math/FiftyYearsChallenge.spec.ts)
 
 ## Accounts
 
-TODO
-
 ### Fuzzy identity
 
-TODO
+[Script](./scripts/accounts/FuzzyIdentityChallenge.ts) | [Test](./test/accounts/FuzzyIdentityChallenge.spec.ts)
 
 ### Public Key
 
-TODO
+[Script](./scripts/accounts/PublicKey.ts)
 
 ### Account Takeover
 
-TODO
+[Script](./scripts/accounts/AccountTakeoverChallenge.ts)
 
 ## Miscellaneous
 
-TODO
-
 ### Assume ownership
 
-TODO
+[Script](./scripts/miscellaneous/AssumeOwnershipChallenge.ts) | [Test](./test/miscellaneous/AssumeOwnershipChallenge.spec.ts)
 
 ### Token bank
 
-TODO
+[Script](./scripts/miscellaneous/TokenBankChallenge.ts) | [Test](./test/miscellaneous/TokenBankChallenge.spec.ts)
