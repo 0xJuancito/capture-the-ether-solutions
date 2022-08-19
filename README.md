@@ -42,7 +42,7 @@ Solutions to the Capture The Ether CTF challenges ⛳️
 
 ### Call me
 
-Just call the `callme` function
+Just call the `callme` function.
 
 ```typescript
 const tx = await contract.callme();
@@ -52,7 +52,16 @@ const tx = await contract.callme();
 
 ### Choose a nickname
 
-TODO
+Call the `setNickname` function with your nickname.
+
+The function expects the input to be a `bytes32`, so you should parse the name before sending it.
+
+```typescript
+const nickname = ethers.utils.formatBytes32String("juancito");
+const tx = await contract.setNickname(nickname);
+```
+
+[Script](./scripts/warmup/NicknameChallenge.ts)
 
 ## Lotteries
 
