@@ -136,10 +136,6 @@ The answer is now a "random" number:
 ```solidity
 function guess(uint8 n) public payable {
   uint8 answer = uint8(keccak256(block.blockhash(block.number - 1), now));
-
-  if (n == answer) {
-    msg.sender.transfer(2 ether);
-  }
 }
 
 ```
@@ -176,12 +172,7 @@ function lockInGuess(uint8 n) public payable {
 
 function settle() public {
   require(block.number > settlementBlockNumber);
-
   uint8 answer = uint8(keccak256(block.blockhash(block.number - 1), now)) % 10;
-
-  if (guess == answer) {
-    msg.sender.transfer(2 ether);
-  }
 }
 
 ```
@@ -214,6 +205,31 @@ function attack() public {
 [Script](./scripts/lotteries/PredictTheFutureChallenge.ts) | [Test](./test/lotteries/PredictTheFutureChallenge.spec.ts)
 
 ### Predict the block hash
+
+We now have to predict the hash of a future block, which will not be possible to brute-force:
+
+```solidity
+function lockInGuess(bytes32 hash) public payable {
+  guess = hash;
+  settlementBlockNumber = block.number + 1;
+}
+
+function settle() public {
+  require(block.number > settlementBlockNumber);
+  bytes32 answer = block.blockhash(settlementBlockNumber);
+}
+
+```
+
+But there is a catch! From [Solidity documentation](https://docs.soliditylang.org/en/v0.6.8/units-and-global-variables.html#block-and-transaction-properties):
+
+> The block hashes are not available for all blocks for scalability reasons. You can only access the hashes of the most recent 256 blocks, all other values will be zero.
+
+This means that after 256 blocks of locking our guess our "random" answer will be 0. So we we can exploit it:
+
+1. Call `lockInGuess` with `0x0000000000000000000000000000000000000000000000000000000000000000`
+2. Wait for 256 blocks
+3. Call `settle`
 
 [Script](./scripts/lotteries/PredictTheBlockHashChallenge.ts) | [Test](./test/lotteries/PredictTheBlockHashChallenge.spec.ts)
 
