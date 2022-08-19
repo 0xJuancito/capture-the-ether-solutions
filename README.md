@@ -268,7 +268,7 @@ function attack() public {
 
 # Acknowledgments
 
-Some other helpful solutions that helped me understand better the challenges:
+Some other helpful solutions that helped me understand the challenges better:
 
 - https://cmichel.io/capture-the-ether-solutions/
 - https://medium.com/coinmonks/lets-play-capture-the-ether-warmup-68a5fc38e670
