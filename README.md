@@ -215,7 +215,7 @@ challenge.guess.value(1 ether)(answer);
 
 # Acknowledgments
 
-Some useful resources that helped me solve the challenges and understand them better:
+Some other helpful solutions that helped me understand better the challenges:
 
 - https://cmichel.io/capture-the-ether-solutions/
 - https://medium.com/coinmonks/lets-play-capture-the-ether-warmup-68a5fc38e670
