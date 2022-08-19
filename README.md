@@ -108,6 +108,24 @@ for (let i = 0; i <= 255; i++) {
 
 ### Guess the random number
 
+In this case the answer is generated "randomly" and stored "privately" in the contract:
+
+```typescript
+contract GuessTheRandomNumberChallenge {
+    uint8 answer;
+
+    function GuessTheRandomNumberChallenge() public payable {
+        answer = uint8(keccak256(block.blockhash(block.number - 1), now));
+    }
+}
+```
+
+Data in smart contracts can be read despite being declared as "private". The key here is to understand how the storage works, and that the `answer` is stored in `slot 0` and therefore can be retrieved by calling:
+
+```typescript
+const secretNumber = await contract.provider.getStorageAt(contract.address, 0);
+```
+
 [Script](./scripts/lotteries/GuessTheRandomNumberChallenge.ts) | [Test](./test/lotteries/GuessTheRandomNumberChallenge.spec.ts)
 
 ### Guess the new number
