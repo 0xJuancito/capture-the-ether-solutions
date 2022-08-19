@@ -225,10 +225,10 @@ But there is a catch! From [Solidity documentation](https://docs.soliditylang.or
 
 > The block hashes are not available for all blocks for scalability reasons. You can only access the hashes of the most recent 256 blocks, all other values will be zero.
 
-This means that after 256 blocks of locking our guess our "random" answer will be 0. So we we can exploit it:
+This means that after 256 + 1 blocks of locking our guess our "random" answer will be 0. So we we can exploit it:
 
 1. Call `lockInGuess` with `0x0000000000000000000000000000000000000000000000000000000000000000`
-2. Wait for 256 blocks
+2. Wait for 257 blocks
 3. Call `settle`
 
 [Script](./scripts/lotteries/PredictTheBlockHashChallenge.ts) | [Test](./test/lotteries/PredictTheBlockHashChallenge.spec.ts)
