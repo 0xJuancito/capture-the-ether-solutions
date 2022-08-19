@@ -42,7 +42,13 @@ Solutions to the Capture The Ether CTF challenges ⛳️
 
 ### Call me
 
-TODO
+Just call the `callme` function
+
+```typescript
+const tx = await contract.callme();
+```
+
+[Script](./scripts/warmup/CallMeChallenge.ts) | [Test](./test/warmup/CallMeChallenge.spec.ts)
 
 ### Choose a nickname
 
