@@ -315,6 +315,32 @@ The Attacker account balance will underflow (499-500), so instead of resulting i
 
 ### Retirement fund
 
+In this challenge we're the the `beneficiary` of part of a retirement fund if the `owner` withdraws the Ether early.
+
+The only callable function by the `beneficiary` is `collectPenalty`:
+
+```solidity
+function collectPenalty() public {
+  require(msg.sender == beneficiary);
+
+  uint256 withdrawn = startBalance - address(this).balance;
+  require(withdrawn > 0);
+
+  msg.sender.transfer(address(this).balance);
+}
+
+```
+
+Here we can "bypass" the `require(withdrawn > 0)` if we can perform an underflow in `startBalance - address(this).balance`.
+
+It doesn't seem to be possible to add more funds with any function, and the contract does not have a [payable fallback function](https://docs.soliditylang.org/en/develop/contracts.html#fallback-function). So it shouldn't be possible to do it, right?
+
+But, as explained [here](https://solidity-by-example.org/hacks/self-destruct/):
+
+> A malicious contract can use selfdestruct to force sending Ether to any contract.
+
+We can then create a contract that autodestructs and sends Ether to the original contract address, perform an underflow, and then withdraw the funds
+
 [Script](./scripts/math/RetirementFundChallenge.ts) | [Test](./test/math/RetirementFundChallenge.spec.ts)
 
 ### Mapping
@@ -363,3 +389,7 @@ Some other helpful solutions that helped me understand the challenges better:
 - https://betterprogramming.pub/capture-the-ether-guess-the-random-number-2ebb8c9c0347
 - https://github.com/nicobevilacqua/CaptureTheEtherSolutions
 - https://www.youtube.com/watch?v=c7Pnn-Oop_Q&list=PLQ6T91uQFBa3_4RxD63XfMyfmNX56XO74 (Spanish)
+
+```
+
+```
