@@ -259,7 +259,7 @@ numTokens = MAX_UNIT_256 / PRICE_PER_TOKEN + 1;
 msg.value = numTokens - MAX_UNIT_256;
 ```
 
-The resulting `msg.value` is around 0.41 ETH. Then, 1 token can be sold for 1 ETH, completing the challenge.
+The resulting `msg.value` is around `0.41` ETH. Then, 1 token can be sold for 1 ETH, completing the challenge.
 
 [Script](./scripts/math/TokenSaleChallenge.ts) | [Test](./test/math/TokenSaleChallenge.spec.ts)
 
