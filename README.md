@@ -237,6 +237,30 @@ This means that after 256 + 1 blocks of locking our guess our "random" answer wi
 
 ### Token sale
 
+The goal here is to steal some Ether from the contract.
+
+In older versions of Solidity you could perform an overflow without reverting the tx. This [was changed in v0.8.0](https://docs.soliditylang.org/en/v0.8.13/080-breaking-changes.html#silent-changes-of-the-semantics).
+
+It is possible to exploit the contract with that in mind tricking the `require`:
+
+```solidity
+function buy(uint256 numTokens) public payable {
+  require(msg.value == numTokens * PRICE_PER_TOKEN);
+
+  balanceOf[msg.sender] += numTokens;
+}
+
+```
+
+We can calculate the value of `numTokens` that makes the calculation overflow, and the amount of wei that has to be sent:
+
+```solidity
+numTokens = MAX_UNIT_256 / PRICE_PER_TOKEN + 1;
+msg.value = numTokens - MAX_UNIT_256;
+```
+
+The resulting `msg.value` is around 0.41 ETH. Then, 1 token can be sold for 1 ETH, completing the challenge.
+
 [Script](./scripts/math/TokenSaleChallenge.ts) | [Test](./test/math/TokenSaleChallenge.spec.ts)
 
 ### Token whale
