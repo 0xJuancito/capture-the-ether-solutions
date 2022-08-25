@@ -402,6 +402,44 @@ const completeTx = await contract.set(isCompletePositionInMap, "1");
 
 ### Donation
 
+In this challenge we have to withdraw all the Ether from the contract. The only place where it is possible is:
+
+```solidity
+function withdraw() public {
+  require(msg.sender == owner);
+  msg.sender.transfer(address(this).balance);
+}
+
+```
+
+But it requires to be the `owner`. So, we'll have to find a way to become the new owner.
+
+There's some funny business going on. The `donation` variable has no location defined (memory/storage):
+
+```solidity
+Donation donation;
+```
+
+In this case, it assumes `storage` by default, leading to an unexpected behavior. It acts as a pointer to the storage, and it will write to the first slots when changing its attributes:
+
+```solidity
+struct Donation {
+  uint256 timestamp;
+  uint256 etherAmount;
+}
+
+Donation[] public donations;
+address public owner;
+```
+
+Setting the `timestamp` will write to the `slot 0` => the array length, and setting `etherAmount` will write to the `slot 1` => the `owner`.
+
+So, to set the `owner` we just have to set `etherAmount` to our address.
+
+The only reamaining challenge is passing the `require(msg.value == etherAmount / scale);`
+
+It is straightforward. We convert our a decimal number and divide by the `scale` (10^18 \* 1 ether). That's it :)
+
 [Script](./scripts/math/DonationChallenge.ts) | [Test](./test/math/DonationChallenge.spec.ts)
 
 ### Fifty years
