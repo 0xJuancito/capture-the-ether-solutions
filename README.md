@@ -345,6 +345,59 @@ We can then create a contract that autodestructs and sends Ether to the original
 
 ### Mapping
 
+In this challenge we have to make `isComplete` return `true`, but there doesn't seem to be any place to change it.
+
+```solidity
+contract MappingChallenge {
+  bool public isComplete;
+  uint256[] map;
+
+  function set(uint256 key, uint256 value) public {
+    if (map.length <= key) {
+      map.length = key + 1;
+    }
+
+    map[key] = value;
+  }
+
+  function get(uint256 key) public view returns (uint256) {
+    return map[key];
+  }
+}
+
+```
+
+There are only two places that modify the storage: `map.length = key + 1;` and `map[key] = value;`. So we may want to check if we can exploit that somehow.
+
+[Contracts have a storage of 2^256 slots of 32-bytes](https://docs.soliditylang.org/en/latest/internals/layout_in_storage.html).
+
+> State variables of contracts are stored in storage in a compact way such that multiple values sometimes use the same storage slot. Data is stored contiguously item after item starting with the first state variable, which is stored in slot 0.
+
+That said, we know that `isComplete` is stored in `slot 0`.
+
+> Due to their unpredictable size, mappings and dynamically-sized array types cannot be stored “in between” the state variables preceding and following them. Instead, they are considered to occupy only 32 bytes with regards to the rules above and the elements they contain are stored starting at a different storage slot that is computed using a Keccak-256 hash.
+
+If we can expand the array to its maximum size, we will be able to modify any slot byt doing `map[key] = value;`.
+
+```solidity
+if (map.length <= key) {
+    map.length = key + 1;
+}
+```
+
+Fortunately we can easily modify it. First thing we have to do is expand the array length to its max value:
+
+```typescript
+const expandTx = await contract.set(MAX_UINT_256.sub("1"), 0); // Substract 1 as `map.length = key + 1;`
+```
+
+Then calculate the index that the `isComplete` variable would be in the map, and set it to `1` to complete the challenge:
+
+```typescript
+const isCompletePositionInMap = NUMBER_OF_SLOTS.sub(mapStartSlot);
+const completeTx = await contract.set(isCompletePositionInMap, "1");
+```
+
 [Script](./scripts/math/MappingChallenge.ts) | [Test](./test/math/MappingChallenge.spec.ts)
 
 ### Donation
