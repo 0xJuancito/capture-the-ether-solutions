@@ -444,6 +444,54 @@ It is straightforward. We convert our a decimal number and divide by the `scale`
 
 ### Fifty years
 
+The goal of this challenge is to withdraw all the Ether from the contract.
+
+In order to do that we will need to call the `withdraw` function and satisfy two requirements. We're the `owner`, so that's fine. The second conditions is that we wait 50 years to withdraw the Ether:
+
+```solidity
+function withdraw(uint256 index) public {
+  require(msg.sender == owner);
+  require(now >= queue[index].unlockTimestamp);
+  // ...
+  msg.sender.transfer(total);
+}
+
+```
+
+50 years is too long, so we'll try to find a way of modifying `queue[index].unlockTimestamp`, so that it satisfies the requirement.
+
+```solidity
+function upsert(uint256 index, uint256 timestamp) public payable {
+  if (index >= head && index < queue.length) {
+    Contribution storage contribution = queue[index];
+    contribution.amount += msg.value;
+  } else {
+    require(timestamp >= queue[queue.length - 1].unlockTimestamp + 1 days);
+
+    contribution.amount = msg.value;
+    contribution.unlockTimestamp = timestamp;
+    queue.push(contribution);
+  }
+}
+
+```
+
+There's a vulnerability that might be exploited here. The `contribution` variable has an [uninitialized storage pointer](https://www.bookstack.cn/read/ethereumbook-en/spilt.16.c2a6b48ca6e1e33c.md#n76zm). Meaning that modifying it will modify the first slots of the storage: `contribution.amount` will change the `slot 0`, which corresponds to the array length, and `contribution.unlockTimestamp` will modify the `slot 1`, which is the `head` variable.
+
+First we will expand the array length, so that we can later modify any slot in the storage. We also have to satisfy this condition:
+
+```solidity
+require(timestamp >= queue[queue.length - 1].unlockTimestamp + 1 days);
+```
+
+So, we will satisfy the condition by overflowing the result in a way that it equals `0` => `timestamp = 2^256 - 1 day`. We will also send `value = 1`, so that it updates `contribution.amount => slot 0 => array length`.
+
+Then we have to reset the `head` value which was overwritten previously with garbage. This will also increase the array length by one.
+
+We can finally create a contract that autodestructs and sends the remaining wei we need to pass the `withdraw` requirements.
+
+Call `withdraw` and we're done :)
+
 [Script](./scripts/math/FiftyYearsChallenge.ts) | [Test](./test/math/FiftyYearsChallenge.spec.ts)
 
 ## Accounts
@@ -481,6 +529,9 @@ Some other helpful solutions that helped me understand the challenges better:
 - https://github.com/nicobevilacqua/CaptureTheEtherSolutions
 - https://www.youtube.com/watch?v=c7Pnn-Oop_Q&list=PLQ6T91uQFBa3_4RxD63XfMyfmNX56XO74 (Spanish)
 
+````
+
 ```
 
 ```
+````
