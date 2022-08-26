@@ -498,6 +498,50 @@ Call `withdraw` and we're done :)
 
 ### Fuzzy identity
 
+The goal here is to satisfy the `authenticate` function:
+
+```solidity
+function authenticate() public {
+  require(isSmarx(msg.sender));
+  require(isBadCode(msg.sender));
+
+  isComplete = true;
+}
+
+function isSmarx(address addr) internal view returns (bool) {
+  return IName(addr).name() == bytes32("smarx");
+}
+
+```
+
+The first condition is easy to satisfy. Just deploy a contract with a `name` function that returns `smarx`
+
+The second one is trickier. It requires the caller to contain `badc0de` in its address. We can calculate the address of the resulting smart contract before deploying it, so we will brute force the generation of EOA until the contract they generate with their first NONCE contains the specified word:
+
+```typescript
+while (1) {
+  privateKey = `0x${crypto.randomBytes(32).toString("hex")}`;
+  wallet = new ethers.Wallet(privateKey);
+
+  contractAddress = utils.getContractAddress({
+    from: wallet.address,
+    nonce: BigNumber.from("0"), // First deployed contract with this address
+  });
+
+  if (contractAddress.toLowerCase().includes("badc0de")) {
+    console.log("found", privateKey);
+    return wallet;
+  }
+
+  counter++;
+  if (counter % 1000 === 0) {
+    console.log(`checked ${counter} addresses`);
+  }
+}
+```
+
+We store the address and key, call the `authenticate` and challenge solved!
+
 [Script](./scripts/accounts/FuzzyIdentityChallenge.ts) | [Test](./test/accounts/FuzzyIdentityChallenge.spec.ts)
 
 ### Public Key
