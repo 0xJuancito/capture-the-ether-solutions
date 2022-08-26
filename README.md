@@ -512,6 +512,8 @@ Call `withdraw` and we're done :)
 
 ### Assume ownership
 
+The constructor function here was mispelled, making it callable by anyone. Just call the function to win
+
 [Script](./scripts/miscellaneous/AssumeOwnershipChallenge.ts) | [Test](./test/miscellaneous/AssumeOwnershipChallenge.spec.ts)
 
 ### Token bank
