@@ -586,9 +586,9 @@ The order in which those actions are executed is important. In this case the bal
 
 Some other helpful solutions that helped me understand the challenges better:
 
-- https://cmichel.io/capture-the-ether-solutions/
-- https://medium.com/coinmonks/lets-play-capture-the-ether-warmup-68a5fc38e670
-- https://medium.com/coinmonks/smart-contract-exploits-part-2-featuring-capture-the-ether-math-31a289da0427
-- https://betterprogramming.pub/capture-the-ether-guess-the-random-number-2ebb8c9c0347
-- https://github.com/nicobevilacqua/CaptureTheEtherSolutions
-- https://www.youtube.com/watch?v=c7Pnn-Oop_Q&list=PLQ6T91uQFBa3_4RxD63XfMyfmNX56XO74 (Spanish)
+- [Writeups by cmichel](https://cmichel.io/capture-the-ether-solutions/)
+- [Writeups by Forest Fang](https://medium.com/coinmonks/lets-play-capture-the-ether-warmup-68a5fc38e670)
+- [Writeups by Enigmatic](https://medium.com/coinmonks/smart-contract-exploits-part-2-featuring-capture-the-ether-math-31a289da0427)
+- [Writeups by Tomas](https://betterprogramming.pub/capture-the-ether-guess-the-random-number-2ebb8c9c0347)
+- [Solutions by nicobevi](https://github.com/nicobevilacqua/CaptureTheEtherSolutions)
+- [YouTube explanations by 0x4non](https://www.youtube.com/watch?v=c7Pnn-Oop_Q&list=PLQ6T91uQFBa3_4RxD63XfMyfmNX56XO74) (Spanish)
