@@ -546,9 +546,15 @@ We store the address and key, call the `authenticate` and challenge solved!
 
 ### Public Key
 
+Here we need to find the `publicKey` that solves the challenge. We can infer it from some data in the outgoing tx.
+
+A great writeup by cmichel can be found [here](https://cmichel.io/capture-the-ether-solutions/).
+
 [Script](./scripts/accounts/PublicKey.ts)
 
 ### Account Takeover
+
+This challenge is similar to the previous one, but in this case we have to find the private key of the account, infering it from two transactions. A detailed solution by Enigmatic can be found [here](https://medium.com/coinmonks/smart-contract-exploits-part-3-featuring-capture-the-ether-accounts-c86d7e9a1400#ea6b)
 
 [Script](./scripts/accounts/AccountTakeoverChallenge.ts)
 
@@ -561,6 +567,18 @@ The constructor function here was mispelled, making it callable by anyone. Just 
 [Script](./scripts/miscellaneous/AssumeOwnershipChallenge.ts) | [Test](./test/miscellaneous/AssumeOwnershipChallenge.spec.ts)
 
 ### Token bank
+
+In this challenge we have to get all of the tokens from the bank.
+
+First thing we notice is that when some tokens are transfered, a fallback function is called:
+
+```solidity
+if (isContract(to)) {
+  ITokenReceiver(to).tokenFallback(msg.sender, value, data);
+}
+```
+
+The order in which those actions are executed is important. In this case the balance is updated **after** calling the `transfer` function. So, it is possible to create a contract which exploits that via a [re-entrancy attack](https://solidity-by-example.org/hacks/re-entrancy/), and withdraw all the tokens.
 
 [Script](./scripts/miscellaneous/TokenBankChallenge.ts) | [Test](./test/miscellaneous/TokenBankChallenge.spec.ts)
 
