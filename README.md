@@ -2,7 +2,7 @@
 
 Solutions to the Capture The Ether CTF challenges ⛳️
 
-🚧 WIP
+<img width="153" alt="Screen Shot 2022-08-26 at 15 17 59" src="https://user-images.githubusercontent.com/12957692/186967317-0a4a1a38-e5a1-4a84-aba2-1bf6cacc72c6.png">
 
 ## Contents
 
