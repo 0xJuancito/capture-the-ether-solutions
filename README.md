@@ -1,4 +1,4 @@
-# Capture the Ether Writeup
+# Capture the Ether Solutions
 
 Solutions to the [Capture The Ether](https://capturetheether.com/challenges/) CTF challenges ⛳️
 
