@@ -377,7 +377,7 @@ That said, we know that `isComplete` is stored in `slot 0`.
 
 > Due to their unpredictable size, mappings and dynamically-sized array types cannot be stored “in between” the state variables preceding and following them. Instead, they are considered to occupy only 32 bytes with regards to the rules above and the elements they contain are stored starting at a different storage slot that is computed using a Keccak-256 hash.
 
-If we can expand the array to its maximum size, we will be able to modify any slot byt doing `map[key] = value;`.
+If we can expand the array to its maximum size, we will be able to modify any slot by doing `map[key] = value;`.
 
 ```solidity
 if (map.length <= key) {
