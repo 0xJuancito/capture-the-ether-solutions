@@ -140,7 +140,7 @@ function guess(uint8 n) public payable {
 
 ```
 
-The EVM is deterministic, so it is not possible to achieve randomness inside it. Given the same inputs, it will output the same result, and we can explot this.
+The EVM is deterministic, so it is not possible to achieve randomness inside it. Given the same inputs, it will output the same result, and we can exploit this.
 
 We can create a new contract that calculates the answer and calls the original contract with it. That way we can make sure that the "random" number is generated on the same block, and we can win every time.
 
@@ -225,7 +225,7 @@ But there is a catch! From [Solidity documentation](https://docs.soliditylang.or
 
 > The block hashes are not available for all blocks for scalability reasons. You can only access the hashes of the most recent 256 blocks, all other values will be zero.
 
-This means that after 256 + 1 blocks of locking our guess our "random" answer will be 0. So we we can exploit it:
+This means that after 256 + 1 blocks of locking our guess our "random" answer will be 0. So we can exploit it:
 
 1. Call `lockInGuess` with `0x0000000000000000000000000000000000000000000000000000000000000000`
 2. Wait for 257 blocks
@@ -315,7 +315,7 @@ The Attacker account balance will underflow (499-500), so instead of resulting i
 
 ### Retirement fund
 
-In this challenge we're the the `beneficiary` of part of a retirement fund if the `owner` withdraws the Ether early.
+In this challenge we're the `beneficiary` of part of a retirement fund if the `owner` withdraws the Ether early.
 
 The only callable function by the `beneficiary` is `collectPenalty`:
 
@@ -412,7 +412,7 @@ function withdraw() public {
 
 ```
 
-But it requires to be the `owner`. So, we'll have to find a way to become the new owner.
+But it requires one to be the `owner`. So, we'll have to find a way to become the new owner.
 
 There's some funny business going on. The `donation` variable has no location defined (memory/storage):
 
@@ -438,7 +438,7 @@ So, to set the `owner` we just have to set `etherAmount` to our address.
 
 The only reamaining challenge is passing the `require(msg.value == etherAmount / scale);`
 
-It is straightforward. We convert our a decimal number and divide by the `scale` (10^18 \* 1 ether). That's it :)
+It is straightforward. We convert our address to a `uint256` and divide by the `scale` (10^18 \* 1 ether), this be our `msg.value`. `etherAmount` will be `uint256(<your_address>)`. That's it :)
 
 [Script](./scripts/math/DonationChallenge.ts) | [Test](./test/math/DonationChallenge.spec.ts)
 
@@ -446,7 +446,7 @@ It is straightforward. We convert our a decimal number and divide by the `scale`
 
 The goal of this challenge is to withdraw all the Ether from the contract.
 
-In order to do that we will need to call the `withdraw` function and satisfy two requirements. We're the `owner`, so that's fine. The second conditions is that we wait 50 years to withdraw the Ether:
+In order to do that we will need to call the `withdraw` function and satisfy two requirements. We're the `owner`, so that's fine. The second condition is that we wait 50 years to withdraw the Ether:
 
 ```solidity
 function withdraw(uint256 index) public {
@@ -476,7 +476,7 @@ function upsert(uint256 index, uint256 timestamp) public payable {
 
 ```
 
-There's a vulnerability that might be exploited here. The `contribution` variable has an [uninitialized storage pointer](https://www.bookstack.cn/read/ethereumbook-en/spilt.16.c2a6b48ca6e1e33c.md#n76zm). Meaning that modifying it will modify the first slots of the storage: `contribution.amount` will change the `slot 0`, which corresponds to the array length, and `contribution.unlockTimestamp` will modify the `slot 1`, which is the `head` variable.
+There's a vulnerability that might be exploited here. The `contribution` variable has an [uninitialized storage pointer](https://www.bookstack.cn/read/ethereumbook-en/spilt.16.c2a6b48ca6e1e33c.md#n76zm). This means that modifying it will modify the first slots of the storage: `contribution.amount` will change the `slot 0`, which corresponds to the array length, and `contribution.unlockTimestamp` will modify the `slot 1`, which is the `head` variable.
 
 First we will expand the array length, so that we can later modify any slot in the storage. We also have to satisfy this condition:
 
@@ -554,7 +554,7 @@ A great writeup by cmichel can be found [here](https://cmichel.io/capture-the-et
 
 ### Account Takeover
 
-This challenge is similar to the previous one, but in this case we have to find the private key of the account, infering it from two transactions. A detailed solution by Enigmatic can be found [here](https://medium.com/coinmonks/smart-contract-exploits-part-3-featuring-capture-the-ether-accounts-c86d7e9a1400#ea6b)
+This challenge is similar to the previous one, but in this case we have to find the private key of the account, inferring it from two transactions. A detailed solution by Enigmatic can be found [here](https://medium.com/coinmonks/smart-contract-exploits-part-3-featuring-capture-the-ether-accounts-c86d7e9a1400#ea6b)
 
 [Script](./scripts/accounts/AccountTakeoverChallenge.ts)
 
@@ -562,7 +562,7 @@ This challenge is similar to the previous one, but in this case we have to find 
 
 ### Assume ownership
 
-The constructor function here was mispelled, making it callable by anyone. Just call the function to win
+The constructor function here was misspelled, making it callable by anyone. Just call the function to win
 
 [Script](./scripts/miscellaneous/AssumeOwnershipChallenge.ts) | [Test](./test/miscellaneous/AssumeOwnershipChallenge.spec.ts)
 
@@ -570,7 +570,7 @@ The constructor function here was mispelled, making it callable by anyone. Just 
 
 In this challenge we have to get all of the tokens from the bank.
 
-First thing we notice is that when some tokens are transfered, a fallback function is called:
+First thing we notice is that when some tokens are transferred, a fallback function is called:
 
 ```solidity
 if (isContract(to)) {
